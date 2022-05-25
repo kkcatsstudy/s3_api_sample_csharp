@@ -32,7 +32,7 @@
             this._textBoxUploadDirectory = new System.Windows.Forms.TextBox();
             this._labelUploadDirectorySummary = new System.Windows.Forms.Label();
             this._labelRootDirectoryIdSummary = new System.Windows.Forms.Label();
-            this._textBoxRootDirectoryId = new System.Windows.Forms.TextBox();
+            this._textBoxBucketName = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this._uploadProgressBar = new System.Windows.Forms.ProgressBar();
             this._buttonUpload = new System.Windows.Forms.Button();
@@ -48,6 +48,7 @@
             this._buttonUploadDirectoryRef.TabIndex = 13;
             this._buttonUploadDirectoryRef.Text = "...";
             this._buttonUploadDirectoryRef.UseVisualStyleBackColor = true;
+            this._buttonUploadDirectoryRef.Click += new System.EventHandler(this._buttonUploadDirectoryRef_Click);
             // 
             // _textBoxUploadDirectory
             // 
@@ -79,14 +80,14 @@
             this._labelRootDirectoryIdSummary.TabIndex = 10;
             this._labelRootDirectoryIdSummary.Text = "1. バケット名を入力してください";
             // 
-            // _textBoxRootDirectoryId
+            // _textBoxBucketName
             // 
-            this._textBoxRootDirectoryId.Location = new System.Drawing.Point(47, 67);
-            this._textBoxRootDirectoryId.Margin = new System.Windows.Forms.Padding(2);
-            this._textBoxRootDirectoryId.Name = "_textBoxRootDirectoryId";
-            this._textBoxRootDirectoryId.Size = new System.Drawing.Size(255, 19);
-            this._textBoxRootDirectoryId.TabIndex = 9;
-            this._textBoxRootDirectoryId.Text = "camera-control-remote-cats-dev";
+            this._textBoxBucketName.Location = new System.Drawing.Point(47, 67);
+            this._textBoxBucketName.Margin = new System.Windows.Forms.Padding(2);
+            this._textBoxBucketName.Name = "_textBoxBucketName";
+            this._textBoxBucketName.Size = new System.Drawing.Size(255, 19);
+            this._textBoxBucketName.TabIndex = 9;
+            this._textBoxBucketName.Text = "camera-control-remote-cats-dev";
             // 
             // button1
             // 
@@ -97,7 +98,7 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Visible = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // _uploadProgressBar
             // 
@@ -118,6 +119,7 @@
             this._buttonUpload.TabIndex = 15;
             this._buttonUpload.Text = "アップロード！！";
             this._buttonUpload.UseVisualStyleBackColor = true;
+            this._buttonUpload.Click += new System.EventHandler(this._buttonUpload_Click);
             // 
             // label1
             // 
@@ -142,7 +144,7 @@
             this.Controls.Add(this._textBoxUploadDirectory);
             this.Controls.Add(this._labelUploadDirectorySummary);
             this.Controls.Add(this._labelRootDirectoryIdSummary);
-            this.Controls.Add(this._textBoxRootDirectoryId);
+            this.Controls.Add(this._textBoxBucketName);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -160,7 +162,7 @@
         private System.Windows.Forms.TextBox _textBoxUploadDirectory;
         private System.Windows.Forms.Label _labelUploadDirectorySummary;
         private System.Windows.Forms.Label _labelRootDirectoryIdSummary;
-        private System.Windows.Forms.TextBox _textBoxRootDirectoryId;
+        private System.Windows.Forms.TextBox _textBoxBucketName;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ProgressBar _uploadProgressBar;
         private System.Windows.Forms.Button _buttonUpload;
