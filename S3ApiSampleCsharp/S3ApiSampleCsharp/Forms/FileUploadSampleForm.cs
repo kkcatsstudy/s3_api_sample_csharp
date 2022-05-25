@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,14 @@ namespace S3ApiSampleCsharp.Forms
 {
     public partial class FileUploadSampleForm : Form
     {
+
+        #region フィールド・プロパティ
+        /// <summary>
+        ///  ロガー
+        /// </summary>
+        Logger logger = LogManager.GetCurrentClassLogger();
+        #endregion
+
         public FileUploadSampleForm()
         {
             InitializeComponent();
