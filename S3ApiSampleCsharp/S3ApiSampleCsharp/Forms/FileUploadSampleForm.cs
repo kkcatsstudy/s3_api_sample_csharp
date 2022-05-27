@@ -112,25 +112,47 @@ namespace S3ApiSampleCsharp.Forms
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            var api = new S3Api
+            try
             {
-                Region = Properties.Settings.Default.s3_region,
-                AccessKeyId = Properties.Settings.Default.s3_access_key_id,
-                SecretAccessKey = Properties.Settings.Default.s3_secret_access_key
-            };
-            api.Connect();
+                using (var api = new S3Api
+                {
+                    Region = Properties.Settings.Default.s3_region,
+                    AccessKeyId = Properties.Settings.Default.s3_access_key_id,
+                    SecretAccessKey = Properties.Settings.Default.s3_secret_access_key
+                })
+                {
+                    api.Connect();
 
-            Console.WriteLine("接続できました。");
+                    Console.WriteLine("接続できました。");
 
-            if (api.IsExistBucket(_textBoxBucketName.Text))
-            {
-                Console.WriteLine("あったみたい");
+                    if (api.IsExistBucket(_textBoxBucketName.Text))
+                    {
+                        Console.WriteLine("あったみたい");
+                    }
+                    else
+                    {
+                        MessageBox.Show("バケットがないみたいだよ");
+                        return;
+                    }
+
+                    // 適当なファイルをアップロード
+                    var now = DateTime.Now;
+                    var destKey = string.Format("{0}/{1}/100mb.xxx",
+                        now.ToString("yyyyMMdd"),
+                        now.ToString("HHmmss")
+                        );
+                    await api.Upload(@"C:\Users\nukui\Jobs\camera_control_remote\s3_api_sample_csharp.git\S3ApiSampleCsharp\100_plus_mb.xxx", _textBoxBucketName.Text,
+                        destKey);
+
+                    MessageBox.Show("アップロードできたよ");
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine("なかったみたい");
+                MessageBox.Show(ex.ToString());
             }
         }
     }
