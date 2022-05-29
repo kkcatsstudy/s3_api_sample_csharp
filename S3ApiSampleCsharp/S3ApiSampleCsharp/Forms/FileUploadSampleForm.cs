@@ -83,7 +83,10 @@ namespace S3ApiSampleCsharp.Forms
                     {
                         Region = Properties.Settings.Default.s3_region,
                         AccessKeyId = Properties.Settings.Default.s3_access_key_id,
-                        SecretAccessKey = Properties.Settings.Default.s3_secret_access_key
+                        SecretAccessKey = Properties.Settings.Default.s3_secret_access_key,
+                        //SingleUploadLimit = Properties.Settings.Default.s3_single_upload_limit_bytes,
+                        //MultiPartSize = Properties.Settings.Default.s3_multipart_part_size_bytes,
+                        //RetryCount = Properties.Settings.Default.s3_retry_count
                     })
                     {
                         // 接続

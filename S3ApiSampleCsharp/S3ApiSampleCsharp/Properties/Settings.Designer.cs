@@ -58,5 +58,41 @@ namespace S3ApiSampleCsharp.Properties {
                 this["s3_secret_access_key"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("104857600")]
+        public long s3_single_upload_limit_bytes {
+            get {
+                return ((long)(this["s3_single_upload_limit_bytes"]));
+            }
+            set {
+                this["s3_single_upload_limit_bytes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("104857600")]
+        public long s3_multipart_part_size_bytes {
+            get {
+                return ((long)(this["s3_multipart_part_size_bytes"]));
+            }
+            set {
+                this["s3_multipart_part_size_bytes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int s3_retry_count {
+            get {
+                return ((int)(this["s3_retry_count"]));
+            }
+            set {
+                this["s3_retry_count"] = value;
+            }
+        }
     }
 }
