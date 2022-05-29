@@ -1,7 +1,24 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="S3ApiSampleCsharp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="s3_region" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ap-northeast-1</Value>
+    </Setting>
+    <Setting Name="s3_access_key_id" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="s3_secret_access_key" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="s3_single_upload_limit_bytes" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">104857600</Value>
+    </Setting>
+    <Setting Name="s3_multipart_part_size_bytes" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">104857600</Value>
+    </Setting>
+    <Setting Name="s3_retry_count" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
