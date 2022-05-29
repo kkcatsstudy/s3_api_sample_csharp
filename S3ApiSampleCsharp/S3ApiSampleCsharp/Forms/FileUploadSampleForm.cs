@@ -67,30 +67,42 @@ namespace S3ApiSampleCsharp.Forms
 
             _buttonUpload.Enabled = false;
             _uploadProgressBar.Visible = true;
+
+            var bucketName = _textBoxBucketName.Text;
+            var targetDir = _textBoxUploadDirectory.Text;
+
+            var now = DateTime.Now;
+
+            // 非同期で動きます
             var taskE = await Task.Run(async () =>
             {
                 try
                 {
-                    //var api = new BoxApi
-                    //{
-                    //    ConfigJsonFile = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).ToString(), "box_config.json")
-                    //};
-                    //// 接続
-                    //await api.Connect();
+                    // IDisposable なので using でくくってね
+                    using (var api = new S3Api
+                    {
+                        Region = Properties.Settings.Default.s3_region,
+                        AccessKeyId = Properties.Settings.Default.s3_access_key_id,
+                        SecretAccessKey = Properties.Settings.Default.s3_secret_access_key
+                    })
+                    {
+                        // 接続
+                        api.Connect();
 
-                    //// yyyyMMdd_HHmmss フォルダを作ります
-                    //var createFolderReq = new List<BoxFolderItem>()
-                    //{
-                    //    new BoxFolderItem
-                    //    {
-                    //        Name = DateTime.Now.ToString("yyyyMMdd_HHmmss")
-                    //    }
-                    //};
-                    //var createFolderRes = await api.CreateFolders(_textBoxRootDirectoryId.Text, createFolderReq);
-                    //var targetId = createFolderRes[0].Id;
+                        Console.WriteLine("接続できました。");
 
-                    //// フォルダをアップロード
-                    //await api.UploadFolder(targetId, _textBoxUploadDirectory.Text);
+                        // バケットの存在確認
+                        if (!api.IsExistBucket(_textBoxBucketName.Text))
+                        {
+                            throw new ApplicationException(string.Format("バケット[{0}]が存在しません。", bucketName));
+                        }
+
+                        // S3 側のベースディレクトリを決めます
+                        var baseKey =now.ToString("yyyyMMdd/HHmmss");
+
+                        // フォルダをアップロード
+                        await api.UploadDirectory(targetDir, bucketName, baseKey);
+                    }
                 }
                 catch (Exception ex)
                 {

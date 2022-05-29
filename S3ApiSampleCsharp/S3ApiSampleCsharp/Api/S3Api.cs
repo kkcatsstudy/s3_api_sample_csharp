@@ -136,7 +136,7 @@ namespace S3ApiSampleCsharp.Api
             var fi = new FileInfo(localFile);
             if (SingleUploadLimit < fi.Length)
             {
-                logger.Info("シングルアップロード上限[{0}]を超えているため、マルチパート配信を行います。");
+                logger.Info("ファイルサイズ[{0}]がシングルアップロード上限[{1}]を超えているため、マルチパート配信を行います。", fi.Length, SingleUploadLimit);
                 await UploadMultipart(localFile, bucket, key);
             }
             else
@@ -155,7 +155,7 @@ namespace S3ApiSampleCsharp.Api
         public async Task UploadSingle(string localFile, string bucket, string key)
         {
             var fi = new FileInfo(localFile);
-            logger.Info("アップロードを開始します。[File: {0}, FileSize: {1}, DestBucket: {2}, DestKey: {3}"
+            logger.Info("アップロードを開始します。[File: {0}, FileSize: {1}, DestBucket: {2}, DestKey: {3}]"
                 , localFile, fi.Length, bucket, key);
 
 
@@ -180,7 +180,7 @@ namespace S3ApiSampleCsharp.Api
         public async Task UploadMultipart(string localFile, string bucket, string key)
         {
             var fi = new FileInfo(localFile);
-            logger.Info("マルチパートアップロードを開始します。[File: {0}, FileSize: {1}, DestBucket: {2}, DestKey: {3}"
+            logger.Info("マルチパートアップロードを開始します。[File: {0}, FileSize: {1}, DestBucket: {2}, DestKey: {3}]"
                 , localFile, fi.Length, bucket, key);
             var req = new TransferUtilityUploadRequest
             {
@@ -209,12 +209,48 @@ namespace S3ApiSampleCsharp.Api
         private void multipartUploadRequest_UploadPartProgressEvent(object sender, UploadProgressArgs e)
         {
             // ここはイベントとして公開しても良いかも。
-            logger.Info("    * uploading ... {0} {1, 3}% [{2, 12}/{3, 12}]",
+            // 転送速度によっては、100% に到達する前にファイル転送が完了することがあるみたい？？
+            logger.Info("    * uploading ... {0} {1, 3}% [{2, 15}/{3, 15}]",
                 e.FilePath,
                 e.PercentDone,
                 e.TransferredBytes,
                 e.TotalBytes
             );
+        }
+
+        /// <summary>
+        /// フォルダをアップロードします。
+        /// </summary>
+        /// <param name="targetDir">対象フォルダ</param>
+        /// <param name="bucket">バケット名</param>
+        /// <param name="baseKey">キー名（これにフォルダ名/ファイル名がつきます）</param>
+        /// <returns></returns>
+        public async Task UploadDirectory(string targetDir, string bucket, string baseKey)
+        {
+            // ローカルのフォルダ名を取得
+            // 後ろに \ が入っていることを考慮しています
+            var dirName = (new DirectoryInfo(targetDir)).Name;
+            if (!baseKey.EndsWith("/"))
+            {
+                baseKey += "/";
+            }
+            baseKey += dirName;
+
+            // フォルダの一覧を取得します
+            var subDirs = Directory.GetDirectories(targetDir);
+            foreach (var subDir in subDirs)
+            {
+                // 再帰
+                await UploadDirectory(subDir, bucket, baseKey);
+            }
+
+            // ファイルの一覧を取得します
+            var files = Directory.GetFiles(targetDir);
+            foreach (var file in files)
+            {
+                var filename = Path.GetFileName(file);
+                await Upload(file, bucket, baseKey + "/" + filename);
+            }
         }
 
         /// <summary>
